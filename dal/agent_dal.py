@@ -34,11 +34,10 @@ class AgentDal:
                 sql = "SELECT * FROM agents WHERE  codeName = %s"
                 val = (code_name, )
                 cursor.execute(sql, val)
-                result = cursor.fetchall()
+                result = cursor.fetchone()
                 if not result:
                     return None
-                agent_info = result[0]
-                agent = Agent(agent_info[0], agent_info[1], agent_info[2], agent_info[3], agent_info[4], agent_info[5])
+                agent = Agent(result[0], result[1], result[2], result[3], result[4], result[5])
                 return agent
         except mysql.connector.Error as e:
             print(f"Error getting agent: {e}")
@@ -95,4 +94,3 @@ class AgentDal:
         except mysql.connector.Error as e:
             print(f"Error getting agent: {e}")
             return True
-
