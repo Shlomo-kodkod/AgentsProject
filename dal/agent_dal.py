@@ -80,4 +80,19 @@ class AgentDal:
             print(f"Error delete agent: {e}")
             return False
 
+    @staticmethod
+    def is_code_name_exist(code_name: str) -> bool:
+        try:
+            db = AgentDal.get_db()
+            with db.cursor() as cursor:
+                sql = "SELECT codeName FROM agents WHERE  codeName = %s"
+                val = (code_name,)
+                cursor.execute(sql, val)
+                result = cursor.fetchall()
+                if not result:
+                    return False
+                return True
+        except mysql.connector.Error as e:
+            print(f"Error getting agent: {e}")
+            return True
 
